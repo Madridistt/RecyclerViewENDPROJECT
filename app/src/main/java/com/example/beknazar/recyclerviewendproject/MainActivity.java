@@ -1,5 +1,6 @@
 package com.example.beknazar.recyclerviewendproject;
 
+import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private LinearLayoutManager verticalLinearLayoutManager;
-    private LinearLayoutManager horizontalLinearLayoutManager;
+    private LinearLayoutManager horizontalLinearLayoutManager  ;
     private RecyclerAdapter adapter;
 
 
@@ -33,13 +34,23 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
 
         verticalLinearLayoutManager = new LinearLayoutManager(this);
-        horizontalLinearLayoutManager = new LinearLayoutManager(this);
+        horizontalLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false );
+
           recyclerView.setLayoutManager(verticalLinearLayoutManager);
           adapter = new RecyclerAdapter();
           recyclerView.setAdapter(adapter);
           adapter.addAll(ModelItem.getFakeItems());
+    }
 
-
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            recyclerView.setLayoutManager(horizontalLinearLayoutManager);
+        }
+        else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            recyclerView.setLayoutManager(verticalLinearLayoutManager);
+        }
 
     }
 
